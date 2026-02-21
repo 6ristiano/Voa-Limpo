@@ -1,0 +1,17 @@
+.env
+
+.venv/
+
+__pycache__/
+
+*.pyc
+
+db.sqlite3 (se existir)
+
+staticfiles/ (se você gerar)
+
+media/ (se não quiser versionar)
+
+.idea/ (PyCharm)
+
+.DS_Store

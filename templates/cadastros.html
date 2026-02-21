@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Cadastros – Voa Limpo{% endblock %}
+{% block content %}
+
+<div class="flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold">Cadastros</h1>
+    <p class="mt-1 text-sm text-slate-600">Atalhos para gerenciamento no Admin (backoffice).</p>
+  </div>
+</div>
+
+<div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/accounts/aeroclube/">
+    <div class="font-semibold">Aeroclube/Escola</div>
+    <div class="text-sm text-slate-600 mt-1">Criar/editar unidade.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/aeronave/">
+    <div class="font-semibold">Aeronaves</div>
+    <div class="text-sm text-slate-600 mt-1">Frota e combustível.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/aluno/">
+    <div class="font-semibold">Alunos</div>
+    <div class="text-sm text-slate-600 mt-1">Cadastro básico.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/instrutor/">
+    <div class="font-semibold">Instrutores</div>
+    <div class="text-sm text-slate-600 mt-1">Cadastro básico.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/parametroaeroclube/">
+    <div class="font-semibold">Parâmetros do aeroclube</div>
+    <div class="text-sm text-slate-600 mt-1">Fator CO₂ vigente.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/perfilconsumoaeronave/">
+    <div class="font-semibold">Perfis de consumo</div>
+    <div class="text-sm text-slate-600 mt-1">L/h padrão por aeronave.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/sessaotreinamento/">
+    <div class="font-semibold">Sessões</div>
+    <div class="text-sm text-slate-600 mt-1">Lançar voos e simulador.</div>
+  </a>
+
+  <a class="bg-white border rounded-2xl shadow-sm p-4 hover:bg-slate-50" href="/admin/operacional/baselineconsumo/">
+    <div class="font-semibold">Baselines</div>
+    <div class="text-sm text-slate-600 mt-1">Referências por tipo de aula.</div>
+  </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Voa Limpo{% endblock %}</title>
+
+  <!-- Tailwind (demo) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* sombra leve sem plugin */
+    .shadow-soft { box-shadow: 0 10px 25px rgba(15, 23, 42, .06); }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+  <header class="border-b bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <!-- Logo VL azul -->
+        <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-soft">
+          <span class="text-white font-bold text-sm tracking-wide">VL</span>
+        </div>
+
+        <div>
+          <div class="font-semibold leading-5">Voa Limpo</div>
+          <div class="text-xs text-slate-500">Eficiência operacional na instrução</div>
+        </div>
+      </a>
+
+      <nav class="flex items-center gap-1 text-sm">
+        <a href="/" class="px-3 py-2 rounded-lg hover:bg-slate-100">Início</a>
+        <a href="/painel/" class="px-3 py-2 rounded-lg hover:bg-slate-100">Painel</a>
+        <a href="/cadastros/" class="px-3 py-2 rounded-lg hover:bg-slate-100">Cadastros</a>
+
+        {# Opcional: deixe só se você realmente quiser no header #}
+        {# Remova este bloco se preferir não mostrar Admin aqui #}
+        <a href="/admin/" class="px-3 py-2 rounded-lg hover:bg-slate-100">Admin</a>
+
+        <a href="/accounts/logout/" class="ml-1 px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800">
+          Sair
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-6">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mx-auto max-w-6xl px-4 pb-8 text-xs text-slate-500">
+    MVP acadêmico • Dados em caráter piloto
+  </footer>
+</body>
+</html>

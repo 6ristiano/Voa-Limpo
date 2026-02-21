@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Sessão – {{ s.data|date:"d/m/Y" }} – Voa Limpo{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-between">
+  <div>
+    <a href="/painel/" class="text-sm text-slate-600 hover:text-slate-900">← Voltar ao painel</a>
+    <h1 class="mt-2 text-2xl font-semibold">Sessão – {{ s.data|date:"d/m/Y" }}</h1>
+    <p class="mt-1 text-sm text-slate-600">
+      <span class="font-medium text-slate-900">{{ s.aluno }}</span>
+      <span class="text-slate-400">•</span>
+      Instrutor: <span class="font-medium text-slate-900">{{ s.instrutor }}</span>
+    </p>
+    <p class="mt-1 text-sm text-slate-600">
+      Aeronave: <span class="font-medium text-slate-900">{{ s.aeronave }}</span>
+      <span class="text-slate-400">•</span>
+      Tipo: <span class="font-medium text-slate-900">{{ s.get_tipo_aula_display }}</span>
+    </p>
+  </div>
+
+  <div class="hidden sm:flex items-center gap-2">
+    {% if s.alertas_n %}
+      {% if s.alerta_nivel == 3 %}
+        <span class="inline-flex items-center rounded-full bg-red-100 text-red-700 px-3 py-1 text-sm font-semibold">CRIT ({{ s.alertas_n }})</span>
+      {% elif s.alerta_nivel == 2 %}
+        <span class="inline-flex items-center rounded-full bg-amber-100 text-amber-700 px-3 py-1 text-sm font-semibold">WARN ({{ s.alertas_n }})</span>
+      {% else %}
+        <span class="inline-flex items-center rounded-full bg-slate-100 text-slate-700 px-3 py-1 text-sm font-semibold">INFO ({{ s.alertas_n }})</span>
+      {% endif %}
+    {% else %}
+      <span class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-700 px-3 py-1 text-sm font-semibold">OK</span>
+    {% endif %}
+  </div>
+</div>
+
+<div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4">
+  <!-- Métricas -->
+  <section class="lg:col-span-8 space-y-4">
+    <div class="bg-white rounded-2xl shadow-sm border p-4">
+      <h2 class="font-semibold">Métricas</h2>
+
+      <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3">
+          <div class="text-xs text-slate-500">Litros</div>
+          <div class="mt-1 text-xl font-semibold tabular-nums">{{ s.litros_calc|floatformat:2|default:"-" }}</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3">
+          <div class="text-xs text-slate-500">CO₂ (kg)</div>
+          <div class="mt-1 text-xl font-semibold tabular-nums">{{ s.co2_calc|floatformat:2|default:"-" }}</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3">
+          <div class="text-xs text-slate-500">L/h</div>
+          <div class="mt-1 text-xl font-semibold tabular-nums">{{ s.lph_calc|floatformat:2|default:"-" }}</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3">
+          <div class="text-xs text-slate-500">L/100NM</div>
+          <div class="mt-1 text-xl font-semibold tabular-nums">{{ s.l_100nm_calc|floatformat:2|default:"-" }}</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3">
+          <div class="text-xs text-slate-500">Indicador</div>
+          <div class="mt-1 text-xl font-semibold">{{ s.indicador_nome|default:"-" }}</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3">
+          <div class="text-xs text-slate-500">Ref.</div>
+          <div class="mt-1 text-xl font-semibold tabular-nums">{{ s.baseline_ref|floatformat:2|default:"-" }}</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3 md:col-span-2">
+          <div class="text-xs text-slate-500">Desvio</div>
+          <div class="mt-1 text-xl font-semibold tabular-nums">
+            {% if s.desvio_pct is not None %}
+              {{ s.desvio_pct|floatformat:2 }}%
+            {% else %}
+              -
+            {% endif %}
+          </div>
+          <div class="mt-1 text-xs text-slate-500">
+            {% if s.desvio_pct is not None %}
+              Comparado ao baseline vigente da mesma aeronave e tipo de aula.
+            {% else %}
+              Sem baseline aplicável.
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alertas (lista) -->
+    <div class="bg-white rounded-2xl shadow-sm border p-4">
+      <h2 class="font-semibold">Alertas</h2>
+
+      <ul class="mt-4 space-y-2">
+        {% for a in s.alertas.all %}
+          <li class="flex items-start gap-3 rounded-xl border border-slate-200 p-3">
+            {% if a.severidade == "CRIT" %}
+              <span class="mt-0.5 inline-flex rounded-full bg-red-100 text-red-700 px-2 py-0.5 text-xs font-semibold">CRIT</span>
+            {% elif a.severidade == "WARN" %}
+              <span class="mt-0.5 inline-flex rounded-full bg-amber-100 text-amber-700 px-2 py-0.5 text-xs font-semibold">WARN</span>
+            {% else %}
+              <span class="mt-0.5 inline-flex rounded-full bg-slate-100 text-slate-700 px-2 py-0.5 text-xs font-semibold">INFO</span>
+            {% endif %}
+            <div class="text-sm text-slate-800">{{ a.mensagem }}</div>
+          </li>
+        {% empty %}
+          <li class="rounded-xl border border-slate-200 p-3 text-sm text-slate-600">Sem alertas.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <!-- SOP -->
+  <aside class="lg:col-span-4 space-y-4">
+    <div class="bg-white rounded-2xl shadow-sm border p-4">
+      <h2 class="font-semibold">Recomendações SOP</h2>
+      <p class="mt-1 text-sm text-slate-600">Dicas alinhadas a procedimentos/POH (revisão do chefe de instrução).</p>
+
+      <div class="mt-4 space-y-3">
+        {% for d in dicas %}
+          <div class="rounded-xl border border-slate-200 p-3">
+            <div class="font-semibold">{{ d.titulo }}</div>
+            <div class="mt-1 text-sm text-slate-700">{{ d.texto }}</div>
+          </div>
+        {% empty %}
+          <div class="rounded-xl border border-slate-200 p-3 text-sm text-slate-600">
+            Sem recomendações cadastradas.
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </aside>
+</div>
+
+{% endblock %}
